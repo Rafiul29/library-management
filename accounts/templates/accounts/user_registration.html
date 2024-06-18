@@ -12,10 +12,10 @@
         {% endfor %}
     {% endif %}
 
-    <div class="bg-white px-3 py-4 rounded-xl my-6">
+    <div class="px-3 py-4 rounded-xl my-6">
         <h1 class="font-bold text-3xl text-center pb-5">Sign In</h1>
         <div class="w-full mt-10">
-            <form method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form method="POST" class="shadow-2xl rounded px-8 pt-6 pb-8 mb-4">
                 {% csrf_token %}
                 {% for hidden_field in form.hidden_fields %}
                 {{ hidden_field.errors }}
