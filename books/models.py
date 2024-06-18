@@ -6,7 +6,7 @@ from books.constrants import RATING_CHOISE
 class Book(models.Model):
   title=models.CharField(max_length=100)
   description=models.TextField()
-  image=models.ImageField(upload_to='book/images',default='book/images/default.png')
+  image=models.ImageField(upload_to='media/book/images',default='media/book/images/default.png')
   borrowing_price = models.DecimalField(max_digits=10, decimal_places=2)
   category=models.ManyToManyField(Category,related_name='books')
     

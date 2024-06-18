@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Dummy Banking System" />
+        <title>
+            {% block head_title %}Banking System{% endblock %}
+        </title>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+        {% block head_extra %}{% endblock %}
+        <style>
+            footer {
+                position: fixed !important;
+                bottom: 0 !important;
+                width: 100%;
+            }
+            #id_old_password,#id_new_password1,#id_new_password2{
+                width: 100%;
+                outline: none;
+                border: 1px solid #5f5757;
+                padding: 5px 10px;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body class="bg-indigo-600">
+        {% include 'navbar.html' %}
+        {% block body %}
+            <div class="lg:container lg:mx-auto" id="main">
+                {% include 'messages.html' %}
+                {% block content %}
+                {% endblock %}
+            </div>
+            {% include 'footer.html' %}
+
+        {% endblock %}
+
+        <script>// set the target element that will be collapsed or expanded (eg. navbar menu)
+            const $targetEl = document.getElementById('targetEl');
+            
+            // optionally set a trigger element (eg. a button, hamburger icon)
+            const $triggerEl = document.getElementById('triggerEl');
+            
+            // optional options with default values and callback functions
+            const options = {
+                onCollapse: () => {
+                    console.log('element has been collapsed');
+                },
+                onExpand: () => {
+                    console.log('element has been expanded');
+                },
+                onToggle: () => {
+                    console.log('element has been toggled');
+                },
+            };
+            
+            const instanceOptions = {
+              id: 'targetEl',
+              override: true
+            };
+            
+            </script>
+    </body>
+
+</html>

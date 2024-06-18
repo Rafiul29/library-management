@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'accounts',
     'books',
     'categories',
+    'core',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
