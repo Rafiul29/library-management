@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block body%}
+{% comment %} hero section {% endcomment %}
+<header class='pt-5'>
+  <div class="container">
+    <div class="row  align-items-center  overflow-hidden" style='height:50vh' >
+      <div class="col-lg-7 col-sm-12 ">
+        <div class='d-flex flex-column gap-3'>
+          <div class="">
+            <h1>Welcome to CarMax</h1>
+            <p class='text-secondary'>Your Ultimate Destination for Quality Used Cars</p>
+          </div>
+          <p class="text">Welcome to CarMax, your go-to destination for quality used cars. Enjoy a hassle-free buying experience with our no-haggle pricing, 7-day money-back guarantee, and exceptional customer service. Explore a wide range of vehicles and find the perfect car for you.</p>
+          <a href="#allcar" class="mt-2 text-decoration-none btn btn-outline-info  align-self-start">Explor now </a>
+        </div>
+      </div>
+      <div class="col-lg-5 col-sm-12">
+         <img class='w-100 h-100 object-fit-contain border border-3 border-info rounded' src="{% static 'hero.jpeg'%}" alt=" hero image">
+      </div>
+    </div>
+  </div>
+</header>
+
+
+{% comment %} brand section {% endcomment %}
+<section class='pt-5' id='allcar'>
+  <div class="container">
+    <h2 class="text-left pb-2">All Brands</h2>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{% url 'home' %}" class='text-decoration-none  bg-info rounded p-1 text-light'>All</a>
+      {%for brand in brands %}
+      <div class="form-check bg-info rounded p-1">
+        <input class="form-check-input d-none" type="radio" name="flexRadioDefault" id={{brand.id}}>
+        <label class="form-check-label" for={{brand.id}}>
+          <a href="{% url 'brand_wise_car' brand.slug %}" class='text-decoration-none text-light'> {{brand}}</a>
+        </label>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</section>
+
+  {% comment %} car section {% endcomment %}
+<section class='py-5'>
+  <div class="container">
+    <h2 class="text-left pb-3">Total 
+      {% if cars|length == 1 %}
+        <span>car</span>
+      {% else %}
+        <span>cars</span>
+      {% endif %}
+      {{cars|length}}</h2>
+    <div class="d-flex flex-wrap gap-5 justify-content-center">
+      {%for car in cars%}
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top " src="{{car.image.url}}" alt="{{car.name}}" style='height:10rem'>
+            <div class="card-body " >
+              <h5 class="card-title">
+                <a href="" class="text-decoration-none">{{car.name}}</a>
+              </h5>
+              <p class="card-text " style="text-align: justify;">{{car.description | truncatechars:150}}</p>
+              <p>
+                <span> Brand:</span> <span class='text-secondary p-1 rounded'>{{car.brand}}</span>
+              </p>
+              <p>
+            <div class='d-flex justify-content-between align-items-center'>
+             <p>
+              <span> Price:</span> <span class='text-danger'>{{car.price}}$</span>
+             </p>
+             <p>
+              <a  href="{%url 'car_details' car.id%}"  class=" d-block btn btn-outline-info ">view</a>
+             </p>
+            </div> 
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</section>
+
+<footer class='bg-body-tertiary border-top py-3'>
+  <div class="d-flex flex-column align-item-center">
+    <span class="text-center">&copy; 2024 CarMax by 
+      <span class="text-info">Md Rafiul Islam</span> 
+    </span>
+    <span class="text-center">All right reserved</span>
+  </div>
+</footer>
+{% endblock %}
