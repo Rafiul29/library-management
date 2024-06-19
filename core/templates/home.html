@@ -4,83 +4,84 @@
 
 {% block body%}
 {% comment %} hero section {% endcomment %}
+
 <header class='pt-5'>
-  <div class="container">
-    <div class="row  align-items-center  overflow-hidden" style='height:50vh' >
-      <div class="col-lg-7 col-sm-12 ">
-        <div class='d-flex flex-column gap-3'>
-          <div class="">
-            <h1>Welcome to CarMax</h1>
-            <p class='text-secondary'>Your Ultimate Destination for Quality Used Cars</p>
+  <div class="pt-20 px-10 ">
+    <div class="grid grid-cols-2  gap-5 overflow-hidden " style='height:70vh' >
+        <div class='py-10 space-y-5'>
+          <div class="-space-y-3 ">
+            <h1 class="text-5xl sm:3xl font-semibold text-gray-700">Welcome to  Library Management
+            </h1>
+            <p class='text-gray-700'>Your Gateway to Knowledge and Organization</p>
           </div>
-          <p class="text">Welcome to CarMax, your go-to destination for quality used cars. Enjoy a hassle-free buying experience with our no-haggle pricing, 7-day money-back guarantee, and exceptional customer service. Explore a wide range of vehicles and find the perfect car for you.</p>
-          <a href="#allcar" class="mt-2 text-decoration-none btn btn-outline-info  align-self-start">Explor now </a>
+          <p class="leading-relaxed tracking-wider ">Embrace the future of library management with our innovative software. Our platform integrates advanced technology to simplify cataloging, member engagement, and resource tracking. With intuitive interfaces and real-time updates, managing your library has never been easier. Join the revolution and see how our solutions can transform your library into a modern hub of knowledge.</p>
+          <a href="#allbook" class="inline-block bg-indigo-600 px-5 py-2 rounded hover:bg-indigo-500 duration-500 text-white">Explor now </a>
         </div>
-      </div>
-      <div class="col-lg-5 col-sm-12">
-         <img class='w-100 h-100 object-fit-contain border border-3 border-info rounded' src="{% static 'hero.jpeg'%}" alt=" hero image">
+
+      <div class="">
+         <img class='w-100 h-100 object-fit-contain border border-3 border-info rounded' src="{% static 'hero.png'%}" alt=" hero image">
       </div>
     </div>
   </div>
 </header>
 
 
-{% comment %} brand section {% endcomment %}
-<section class='pt-5' id='allcar'>
-  <div class="container">
-    <h2 class="text-left pb-2">All Brands</h2>
-    <div class="d-flex flex-wrap gap-2">
-      <a href="{% url 'home' %}" class='text-decoration-none  bg-info rounded p-1 text-light'>All</a>
-      {%for brand in brands %}
-      <div class="form-check bg-info rounded p-1">
-        <input class="form-check-input d-none" type="radio" name="flexRadioDefault" id={{brand.id}}>
-        <label class="form-check-label" for={{brand.id}}>
-          <a href="{% url 'brand_wise_car' brand.slug %}" class='text-decoration-none text-light'> {{brand}}</a>
-        </label>
+{% comment %} category section {% endcomment %}
+
+<section>
+  <div class="py-10 px-10">
+    <div class="grid grid-cols-4 gap-4">
+      <div class="col-span-1 border p-5">
+        {%for category in categories %}
+        <div class="form-check bg-info rounded p-1">
+          <input class="form-check-input hidden " type="radio" name="flexRadioDefault" id={{brand.id}}>
+          <label class="form-check-label" for={{brand.id}}>
+            <a href="{% url 'category_wise_book' category.slug %}" class='inline-block bg-indigo-600 px-5 py-2 rounded hover:bg-indigo-500 duration-500 text-white'> {{category}}</a>
+          </label>
+        </div>
+        {%endfor%}
       </div>
-      {%endfor%}
+      <div class="col-span-3">
+        <h2 class="text-left pb-3">Total 
+          {% if books|length == 1 %}
+            <span>book</span>
+          {% else %}
+            <span>books</span>
+          {% endif %}
+          {{books|length}}</h2>
+        <div class="flex flex-wrap gap-5 justify-content-center">
+          {% for book in books %}
+            <div class="border p-5 rounded" style="width: 18rem;">
+                <img class="card-img-top " src="{{book.image.url}}" alt="{{book.title}}" style='height:10rem'>
+                <div class="card-body " >
+                  <h5 class="card-title">
+                    <a href="" class="text-decoration-none">{{book.name}}</a>
+                  </h5>
+                  <p class="card-text " style="text-align: justify;">{{book.description | truncatechars:100}}</p>
+                  <p>
+                    <span> Category:</span> <span class='text-secondary p-1 rounded'>{{book.category.name}}</span>
+                  </p>
+                  <p>
+                <div class='d-flex justify-content-between align-items-center'>
+                 <p>
+                  <span> borrowing price :</span> <span class='text-danger'>{{book.borrowing_price}}$</span>
+                 </p>
+                 <p>
+                  <a  href=""  class=" d-block btn btn-outline-info ">view</a>
+                 </p>
+                </div> 
+                </div>
+              </div>
+          {% endfor %}
+        </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-  {% comment %} car section {% endcomment %}
-<section class='py-5'>
-  <div class="container">
-    <h2 class="text-left pb-3">Total 
-      {% if cars|length == 1 %}
-        <span>car</span>
-      {% else %}
-        <span>cars</span>
-      {% endif %}
-      {{cars|length}}</h2>
-    <div class="d-flex flex-wrap gap-5 justify-content-center">
-      {%for car in cars%}
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top " src="{{car.image.url}}" alt="{{car.name}}" style='height:10rem'>
-            <div class="card-body " >
-              <h5 class="card-title">
-                <a href="" class="text-decoration-none">{{car.name}}</a>
-              </h5>
-              <p class="card-text " style="text-align: justify;">{{car.description | truncatechars:150}}</p>
-              <p>
-                <span> Brand:</span> <span class='text-secondary p-1 rounded'>{{car.brand}}</span>
-              </p>
-              <p>
-            <div class='d-flex justify-content-between align-items-center'>
-             <p>
-              <span> Price:</span> <span class='text-danger'>{{car.price}}$</span>
-             </p>
-             <p>
-              <a  href="{%url 'car_details' car.id%}"  class=" d-block btn btn-outline-info ">view</a>
-             </p>
-            </div> 
-            </div>
-          </div>
-      {% endfor %}
-    </div>
-    </div>
-  </div>
-</section>
+
+
 
 <footer class='bg-body-tertiary border-top py-3'>
   <div class="d-flex flex-column align-item-center">
