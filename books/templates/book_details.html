@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %} Book | {{car.title}}{% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
 
 
 {% block body %}
@@ -11,29 +13,73 @@
       </div>
       <div class="col-span-1">
         <div class="card-body space-y-3">
-          <h1 class="card-title mb-1">
+          <h1 class="card-title mb-1 font-semibold tracking-wider">
             {{book.title}}
           </h1>
-          <p class="card-text">{{book.description}}</p>
+          <p class="card-text text-gray-800">{{book.description}}</p>
           <p class="flex flex-wrap gap-2">
             <span class="font-semibold">Category: </span>
             {% for bo in book.category.all %}
-            <span class='bg-gray-400 text-blue-900 p-1 rounded'>{{bo.name}}</span>
+            <span class='bg-gray-400 text-blue-500 p-1 rounded'>{{bo.name}}</span>
             {% endfor %}
           </p>
-            <span> Price:</span> <span class='text-danger'>{{book.borrowing_price}}$</span>
+          <span> Price:</span> <span class='text-red-900'>{{book.borrowing_price}}$</span>
           </p>
-          {% if request.user.is_authenticated and car.quantity > 0 %}
-          <a href="{% url 'car_order' car.id %}" class="text-decoration-none btn btn-info">Buy now</a>
-          {%endif%}
+          <!-- {% if request.user.is_authenticated and car.quantity > 0 %}
+          <a href="{% url 'book_details' book.id %}" class="text-decoration-none btn btn-info">Buy now</a>
+          {%endif%} -->
         </div>
       </div>
     </div>
+</section>
+
+<section class="py-10">
+  <div class="container mx-auto space-y-5">
+    {% if reviews|length %}
+    <div class="card p-2 ">
+      <h5>Total reviews :{{reviews | length}} </h5>
+      <div class="card-body flex flex-column gap-5">
+        {% for review in reviews %}
+        <div class="p-2 border">
+          <h6>{{review.text}}  </h6>
+          <h6>{{review.user.first_name}} {{review.user.last_name}} (<span class='text-indigo-500'>{{review.created_on }}</span>)</h6>
+          <h5 class="flex gap-2">
+            {% with ''|center:review.rating as range %}
+            {% for _ in range %}
+            <img style="width:20px; height: 20px;"
+              class='w-25 h-25 object-fit-contain border border-3 border-info rounded' src="{% static 'star.png'%}"
+              alt="icon">
+            {% endfor %}
+            {% endwith %}
+  
+          </h5>
+  
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+    {%else%}
+    <p> No Reviews Found</p>
+    {%endif%}
+
+
+
+    <div class="">
+      <h2 class='text-center'>Review Form</h2>
+      <div class="card-body">
+        <form method='POST'>
+          {%csrf_token%}
+          {{reviews_form | crispy }}
+          <button class='btn btn-outline-primary'>submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </section>
 
 
 
 
 
-{% endblock %}
 
+{% endblock %}
