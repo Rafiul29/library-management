@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %} Book | {{car.title}}{% endblock %}
+
+
+{% block body %}
+<section class='py-5'>
+  <div class="px-10 py-6">
+    <div class="grid grid-cols-3 gap-5">
+      <div class="col-span-1 overflow-hidden ">
+        <img class=" w-100 h-100 object-fit-cover border" src="{{book.image.url}}" alt="{{car.name}}">
+      </div>
+      <div class="col-span-2">
+        <div class="card-body">
+          <h1 class="card-title mb-1">
+            {{book.title}}
+          </h1>
+          <p class="card-text">{{book.description}}</p>
+          <p class="flex flex-wrap gap-2">
+            <span class="font-semibold">Category: </span>
+            {% for bo in book.category.all %}
+            <span class='bg-gray-400 text-blue-900 p-1 rounded'>{{bo.name}}</span>
+            {% endfor %}
+          </p>
+            <span> Price:</span> <span class='text-danger'>{{book.borrowing_price}}$</span>
+          </p>
+          {% if request.user.is_authenticated and car.quantity > 0 %}
+          <a href="{% url 'car_order' car.id %}" class="text-decoration-none btn btn-info">Buy now</a>
+          {%endif%}
+        </div>
+      </div>
+    </div>
+</section>
+
+
+
+
+
+{% endblock %}

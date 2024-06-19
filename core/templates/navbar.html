@@ -1,7 +1,11 @@
+{% load static %}
+
 <nav class="flex items-center justify-between flex-wrap bg-white p-6 px-10 border-b shadow-sm">
 
-    <div class="flex items-center flex-shrink-0 text-white ">
-        <span class="font-semibold text-xl tracking-tight text-blue-900"><a href="/">Library Management</a></span>
+    <div class="h-25 w-25 items-center flex-shrink-0 text-white ">
+       <a href="/">
+            <img class='w-25 h-25 object-fit-contain border border-3 border-info rounded' src="{% static 'logo.png' %}" alt=" logo image">
+        </a>
     </div>
 
     <div class="block lg:hidden">

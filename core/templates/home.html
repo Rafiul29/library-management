@@ -30,10 +30,11 @@
 
 <section>
   <div class="py-10 px-10">
-    <div class="grid grid-cols-4 gap-4">
-      <div class="col-span-1 border p-5">
+    <div class="grid grid-cols-6 gap-10">
+      <div class="col-span-1 border p-5 space-y-2">
+      <a  href="/"  class=' p-1 inline-block bg-indigo-600 px-5 py-2 rounded hover:bg-indigo-500 duration-500 text-white'>All</a>
         {%for category in categories %}
-        <div class="form-check bg-info rounded p-1">
+        <div class="form-check bg-info rounded">
           <input class="form-check-input hidden " type="radio" name="flexRadioDefault" id={{brand.id}}>
           <label class="form-check-label" for={{brand.id}}>
             <a href="{% url 'category_wise_book' category.slug %}" class='inline-block bg-indigo-600 px-5 py-2 rounded hover:bg-indigo-500 duration-500 text-white'> {{category}}</a>
@@ -41,7 +42,7 @@
         </div>
         {%endfor%}
       </div>
-      <div class="col-span-3">
+      <div class="col-span-5">
         <h2 class="text-left pb-3">Total 
           {% if books|length == 1 %}
             <span>book</span>
@@ -49,25 +50,29 @@
             <span>books</span>
           {% endif %}
           {{books|length}}</h2>
-        <div class="flex flex-wrap gap-5 justify-content-center">
+        <div class="flex flex-wrap gap-10 justify-content-center">
           {% for book in books %}
-            <div class="border p-5 rounded" style="width: 18rem;">
+            <div class="border p-5 rounded" style="width: 20rem;">
                 <img class="card-img-top " src="{{book.image.url}}" alt="{{book.title}}" style='height:10rem'>
                 <div class="card-body " >
                   <h5 class="card-title">
-                    <a href="" class="text-decoration-none">{{book.name}}</a>
+                    <a href="" class="text-decoration-none">{{book.title}}</a>
                   </h5>
-                  <p class="card-text " style="text-align: justify;">{{book.description | truncatechars:100}}</p>
-                  <p>
-                    <span> Category:</span> <span class='text-secondary p-1 rounded'>{{book.category.name}}</span>
+                  <p class="card-text " style="text-align: justify;">kj{{book.description | truncatechars:100}}</p>
+                  
+                  <p class="flex flex-wrap gap-2">
+                    <span class="font-semibold">Category: </span>
+                      {% for bo in book.category.all %}
+                      <span class='bg-gray-400 text-blue-900 p-1 rounded'>{{bo.name}}</span>
+                      {% endfor %}
                   </p>
-                  <p>
-                <div class='d-flex justify-content-between align-items-center'>
+                 
+                <div class='flex justify-between align-center'>
                  <p>
-                  <span> borrowing price :</span> <span class='text-danger'>{{book.borrowing_price}}$</span>
+                  <span class='text-danger'>{{book.borrowing_price}}$</span>
                  </p>
                  <p>
-                  <a  href=""  class=" d-block btn btn-outline-info ">view</a>
+                  <a  href="{% url 'book_details' book.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded text-sm px-5 py-2 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">view</a>
                  </p>
                 </div> 
                 </div>
@@ -82,7 +87,7 @@
 
 
 
-
+<!-- 
 <footer class='bg-body-tertiary border-top py-3'>
   <div class="d-flex flex-column align-item-center">
     <span class="text-center">&copy; 2024 CarMax by 
@@ -90,5 +95,5 @@
     </span>
     <span class="text-center">All right reserved</span>
   </div>
-</footer>
+</footer> -->
 {% endblock %}

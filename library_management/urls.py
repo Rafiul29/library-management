@@ -23,9 +23,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home,name='home'),
-    path('brand/<slug:category_slug>',home,name='category_wise_book'),
+    path('category/<slug:category_slug>',home,name='category_wise_book'),
     path('accounts/', include('accounts.urls')),
     path('transactions/', include('transactions.urls')),
+    path('books/', include('books.urls')),
+    
 
 ]
 
