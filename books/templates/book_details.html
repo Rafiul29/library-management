@@ -25,9 +25,9 @@
           </p>
           <span> Price:</span> <span class='text-red-900'>{{book.borrowing_price}}$</span>
           </p>
-          <!-- {% if request.user.is_authenticated and car.quantity > 0 %}
-          <a href="{% url 'book_details' book.id %}" class="text-decoration-none btn btn-info">Buy now</a>
-          {%endif%} -->
+      
+          <a href="{% url 'borrow_book' book.id %}" class="bg-indigo-600 px-5 py-2 rounded hover:bg-indigo-500 text-white">Buy Book</a>
+    
         </div>
       </div>
     </div>

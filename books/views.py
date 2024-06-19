@@ -3,6 +3,9 @@ from . import models
 from django.views.generic import DetailView
 from . import forms
 from . import models
+from transactions.models import Transaction
+from django.contrib.auth.decorators import login_required
+from transactions.constants import BOOKED
 # Create your views here.
 
 class DetailBookView(DetailView):
@@ -28,3 +31,22 @@ class DetailBookView(DetailView):
     context['reviews']=reviews
     context['reviews_form']=reviews_form
     return context
+
+
+@login_required
+def borrow_book(request, id):
+    book = models.Book.objects.get(pk=id)
+    user_account = request.user.account
+    # request.user.account.balance
+    if user_account.balance >= book.borrowing_price:
+        user_account.balance -= book.borrowing_price
+        user_account.save()
+        borrow = models.Borrow(user=request.user, book=book)
+        Transaction.objects.create(
+          account=user_account,
+          amount=book.borrowing_price,
+          transaction_type=BOOKED,
+          balance_after_transaction=user_account.balance
+          )
+        borrow.save()
+        return redirect('profile')
