@@ -27,7 +27,7 @@ class TransactionCreateMixin(LoginRequiredMixin,CreateView):
     template_name='transactions/transaction_form.html'
     model=Transaction
     title=''
-    success_url=reverse_lazy('transaction_report')
+    success_url=reverse_lazy('profile')
 
     def get_form_kwargs(self):
         kwargs= super().get_form_kwargs()
@@ -47,7 +47,7 @@ class TransactionCreateMixin(LoginRequiredMixin,CreateView):
 
 class DepositMoneyView(TransactionCreateMixin):
     form_class = DepositForm
-    title = 'Add Balance'
+    title = 'Add Money'
 
     def get_initial(self):
         initial = {'transaction_type': ADD_BALANCE}
