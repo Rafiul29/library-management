@@ -42,7 +42,7 @@
                             {% if borrow.returned %}
                             <span>already return</span>
                             {%else%}
-                            <a href="{% url 'return_book' borrow.id %}">return</a>
+                            <a href="{% url 'return_book' borrow.id %}" class="bg-red-600 text-white px-5 py-2 rounded">return</a>
                             {%endif%}
 
                         </td>

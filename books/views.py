@@ -6,6 +6,7 @@ from . import models
 from transactions.models import Transaction
 from django.contrib.auth.decorators import login_required
 from transactions.constants import BOOKED,RETURN
+from transactions.views import send_transaction_email
 # Create your views here.
 
 class DetailBookView(DetailView):
@@ -48,6 +49,8 @@ def borrow_book(request, id):
           transaction_type=BOOKED,
           balance_after_transaction=user_account.balance
           )
+        # borrow_book_email.html
+        send_transaction_email(request.user, book.borrowing_price, "Borrow Book", "borrow_book_email.html")
         borrow.save()
         return redirect('profile')
     
@@ -83,5 +86,5 @@ def return_book(request, id):
       transaction_type=RETURN,
       balance_after_transaction=user_account.balance
       )
-  
+    send_transaction_email(request.user, borrow_book.book.borrowing_price, "Return  Book", "return_book_email.html")
     return redirect('all_borrow_book')
