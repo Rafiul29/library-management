@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from . import models
 from django.views.generic import DetailView
 from . import forms
 from . import models
 from transactions.models import Transaction
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from transactions.constants import BOOKED,RETURN
 from transactions.views import send_transaction_email
 # Create your views here.
@@ -17,6 +19,13 @@ class DetailBookView(DetailView):
   def post(self, request, *args, **kwargs):
       review_form = forms.ReviewForm(data=self.request.POST)
       book = self.get_object()
+      borrows = models.Borrow.objects.filter(user=request.user, book=book)
+      book = self.get_object()
+
+      if not borrows.exists() or models.Review.objects.filter(user=request.user, book=book).exists():
+    
+        return HttpResponse("You can only review books you have borrowed and not reviewed before.")
+
       if review_form.is_valid():
             new_review = review_form.save(commit=False)
             new_review.user=request.user
